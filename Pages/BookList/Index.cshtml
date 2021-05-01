@@ -1,0 +1,84 @@
+﻿@page
+@model BookListRazor.Pages.BookList.IndexModel
+
+
+<br />
+<div class="container row p-0 m-0">
+    <div class="col-6">
+        <h2 class="text-info">لیست کتابها</h2>
+    </div>
+    <div class="col-3">
+        <a asp-page="Create" class="btn btn-info form-control text-white">کتاب جدید</a>
+    </div>
+    <div class="col-3">
+        <a asp-page="Upsert" class="btn btn-info form-control text-white">اپسرت</a>
+    </div>
+    <div class="col-12 border p-3 mt-3">
+        <form method="post">
+            @if (Model.Books.Count() > 0)
+            {
+                <table class="table table-striped border">
+                    <tr class="table-secondary">
+                        <th>
+                            <label asp-for="Books.FirstOrDefault().Name">نام</label>
+                        </th>
+                        <th>
+                            @*@Html.DisplayNameFor(m=>m.Books.FirstOrDefault().Author)*@
+                            <label asp-for="Books.FirstOrDefault().Author">ناشر</label>
+                        </th>
+                        <th>
+                            <label asp-for="Books.FirstOrDefault().ISBN">شابک</label>
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                    @foreach (var item in Model.Books)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(m => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.Author)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.ISBN)
+                            </td>
+                            <td>
+                                <button asp-page-handler="Delete" asp-route-id="@item.Id" onclick="return confirm('ایا میخواهید حذف کنید') " asp-page-handler="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">حذف</button>
+                                <a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-success btn-sm text-white">ویرایش</a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+            else
+            {
+                <p>کتابی یافت نشد.</p>
+            }
+        </form>
+    </div>
+    <div class="col-12" style="text-align:center">
+        <br />
+        <span class="h3 text-info">یا</span>
+        <br /><br />
+    </div>
+    <div class="col-12 border p-3">
+
+        <table id="DT_load" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>نام</th>
+                    <th>ناشر</th>
+                    <th>شابک</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/js/bookList.js"></script>
+}
+
